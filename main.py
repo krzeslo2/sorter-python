@@ -5,8 +5,8 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
 ROUTES = {
-    Path("C:/inbox/js"): Path("C:/projekty/js"),
-    Path("C:/inbox/pdf"): Path("C:/dokumenty/pdf"),
+    Path(r"C:\Users\PC\Desktop\inbox\js"):  Path(r"C:\Users\PC\Desktop\projekty\js"),
+    Path(r"C:\Users\PC\Desktop\inbox\pdf"): Path(r"C:\Users\PC\Desktop\dokumenty\pdf"),
 }
 
 
@@ -80,6 +80,9 @@ if __name__ == "__main__":
         source.mkdir(parents=True, exist_ok=True)
         print("ooooooo: ", source.resolve())
         observer.schedule(handler, str(source), recursive=False)
+        for existing in source.iterdir():
+            if existing.is_file():
+                handler.process(str(existing))
     observer.start()
     try:
         while True:
